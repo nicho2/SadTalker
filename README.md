@@ -116,6 +116,7 @@ A video tutorial in chinese is available [here](https://www.bilibili.com/video/B
 
 1. Install [Python 3.8](https://www.python.org/downloads/windows/) and check "Add Python to PATH".
 2. Install [git](https://git-scm.com/download/win) manually or using [Scoop](https://scoop.sh/): `scoop install git`.
+   or install with command: `winget install ffmpeg` 
 3. Install `ffmpeg`, following [this tutorial](https://www.wikihow.com/Install-FFmpeg-on-Windows) or using [scoop](https://scoop.sh/): `scoop install ffmpeg`.
 4. Download the SadTalker repository by running `git clone https://github.com/Winfredy/SadTalker.git`.
 5. Download the checkpoints and gfpgan models in the [downloads section](#2-download-models).
@@ -135,6 +136,10 @@ You can run the following script on Linux/macOS to automatically download all th
 
 ```bash
 bash scripts/download_models.sh
+```
+
+```powershell
+ powershell -ExecutionPolicy Bypass -File .\ps_downloadmodel.ps1
 ```
 
 We also provide an offline patch (`gfpgan/`), so no model will be downloaded when generating.

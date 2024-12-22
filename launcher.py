@@ -199,6 +199,7 @@ def start():
     demo.queue()
     demo.launch()
 
+
 if __name__ == "__main__":
     prepare_environment()
     start()
