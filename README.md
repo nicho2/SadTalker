@@ -102,6 +102,9 @@ Community tutorials: [中文Windows教程 (Chinese Windows tutorial)](https://ww
 
   pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 
+for me: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+
   conda install ffmpeg
 
   pip install -r requirements.txt

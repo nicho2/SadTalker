@@ -1,6 +1,6 @@
 # Définir les dossiers et URLs
-$checkpointsFolder = "./checkpoints"
-$gfpganWeightsFolder = "./gfpgan/weights"
+$checkpointsFolder = "../checkpoints"
+$gfpganWeightsFolder = "../gfpgan/weights"
 
 # Créer les dossiers s'ils n'existent pas
 if (!(Test-Path -Path $checkpointsFolder)) {
