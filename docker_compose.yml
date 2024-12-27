@@ -1,0 +1,12 @@
+
+services:
+  sadtalker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    ports:
+      - "7860:7860"

@@ -27,6 +27,13 @@ pip install dlib # macOS needs to install the original dlib.
 
 ### Docker Installation
 
+Don't forget to install the Nvidia Container Toolkit: 
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+
+with local image:
+docker run --gpus all -it --rm -p 7860:7860 sadtalker
+
+
 A community Docker image by [@thegenerativegeneration](https://github.com/thegenerativegeneration) is available on the [Docker hub](https://hub.docker.com/repository/docker/wawa9000/sadtalker), which can be used directly:
 ```bash
 docker run --gpus "all" --rm -v $(pwd):/host_dir wawa9000/sadtalker \

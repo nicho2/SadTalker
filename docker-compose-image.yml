@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  sadtalker:
+    image: sadtalker  # Nom de l'image locale
+    build:
+      context: .
+      dockerfile: Dockerfile  # Dockerfile local
+    runtime: nvidia  # Activer le support GPU via le runtime NVIDIA
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all  # Utiliser tous les GPUs disponibles
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    ports:
+      - "7860:7860"  # Exposer le port 7860 pour l'application
+    volumes:
+      - ./checkpoints:/app/checkpoints  # Si nécessaire, lier localement
+      - ./gfpgan:/app/gfpgan  # Si nécessaire, lier localement
+    stdin_open: true  # Garder la session interactive ouverte
+    tty: true         # Permettre une interaction dans le terminal
