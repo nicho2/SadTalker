@@ -3,6 +3,8 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 from tqdm import tqdm 
+from src.globals import stop_flag
+
 
 def normalize_kp(kp_source, kp_driving, kp_driving_initial, adapt_movement_scale=False,
                  use_relative_movement=False, use_relative_jacobian=False):
@@ -135,6 +137,9 @@ def make_animation(source_image, source_semantics, target_semantics,
             out = generator(source_image_new, kp_source=kp_source_new, kp_driving=kp_driving_new)
             '''
             predictions.append(out['prediction'])
+            if stop_flag.is_set():
+                print("Arrêt détecté.")
+                break
         predictions_ts = torch.stack(predictions, dim=1)
     return predictions_ts
 

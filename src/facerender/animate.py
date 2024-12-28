@@ -199,7 +199,7 @@ class AnimateFromCoeff():
         if original_size:
             result = [ cv2.resize(result_i,(img_size, int(img_size * original_size[1]/original_size[0]) )) for result_i in result ]
         
-        video_name = x['video_name']  + '.mp4'
+        video_name = x['video_name'] + '.mp4'
         path = os.path.join(video_save_dir, 'temp_'+video_name)
         
         imageio.mimsave(path, result,  fps=float(25))
@@ -224,7 +224,7 @@ class AnimateFromCoeff():
 
         if 'full' in preprocess.lower():
             # only add watermark to the full image.
-            video_name_full = x['video_name']  + '_full.mp4'
+            video_name_full = x['video_name'] + '_full.mp4'
             full_video_path = os.path.join(video_save_dir, video_name_full)
             return_path = full_video_path
             paste_pic(path, pic_path, crop_info, new_audio_path, full_video_path, extended_crop= True if 'ext' in preprocess.lower() else False)

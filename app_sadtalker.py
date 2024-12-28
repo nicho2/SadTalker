@@ -1,6 +1,7 @@
 import os, sys
 import gradio as gr
 from src.gradio_demo import SadTalker  
+from src.globals import stop_flag
 
 
 try:
@@ -8,6 +9,19 @@ try:
     in_webui = True
 except:
     in_webui = False
+
+
+
+def stop_generation():
+    stop_flag.set()
+    return "Génération interrompue."
+
+def wrapped_test(sad_talker,*args):
+    stop_flag.clear()  # Réinitialise le flag d'arrêt
+    for _ in sad_talker.test(*args):
+        if stop_flag.is_set():  # Vérifie si l'utilisateur a demandé l'arrêt
+            break
+    return "Génération terminée ou interrompue."
 
 
 def toggle_audio_file(choice):
@@ -66,9 +80,11 @@ def sadtalker_demo(checkpoint_path='checkpoints', config_path='src/config', warp
                             batch_size = gr.Slider(label="batch size in generation", step=1, maximum=10, value=2)
                             enhancer = gr.Checkbox(label="GFPGAN as Face enhancer")
                             submit = gr.Button('Generate', elem_id="sadtalker_generate", variant='primary')
-                            
+                            # Bouton pour arrêter
+                            stop_button = gr.Button("Stop")
+
                 with gr.Tabs(elem_id="sadtalker_genearted"):
-                        gen_video = gr.Video(label="Generated video", format="mp4", width=256)
+                    gen_video = gr.Video(label="Generated video", format="mp4", width=256)
 
         if warpfn:
             submit.click(
@@ -86,7 +102,7 @@ def sadtalker_demo(checkpoint_path='checkpoints', config_path='src/config', warp
                         )
         else:
             submit.click(
-                        fn=sad_talker.test, 
+                        fn=sad_talker.test,
                         inputs=[source_image,
                                 driven_audio,
                                 preprocess_type,
@@ -98,7 +114,11 @@ def sadtalker_demo(checkpoint_path='checkpoints', config_path='src/config', warp
                                 ], 
                         outputs=[gen_video]
                         )
-
+        stop_button.click(
+            fn=stop_generation,
+            inputs=[],
+            outputs=[]
+        )
     return sadtalker_interface
  
 

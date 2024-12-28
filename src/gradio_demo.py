@@ -9,7 +9,7 @@ from src.generate_facerender_batch import get_facerender_data
 from src.utils.init_path import init_path
 
 from pydub import AudioSegment
-
+from src.globals import stop_flag
 
 def mp3_to_wav(mp3_filename,wav_filename,frame_rate):
     mp3_file = AudioSegment.from_file(file=mp3_filename)
@@ -134,6 +134,10 @@ class SadTalker():
             batch = get_data(first_coeff_path, audio_path, self.device, ref_eyeblink_coeff_path=ref_eyeblink_coeff_path, still=still_mode, idlemode=use_idle_mode, length_of_audio=length_of_audio, use_blink=use_blink) # longer audio?
             coeff_path = self.audio_to_coeff.generate(batch, save_dir, pose_style, ref_pose_coeff_path)
 
+        if stop_flag.is_set():
+            print("Arrêt détecté.")
+            return ""
+
         #coeff2video
         data = get_facerender_data(coeff_path, crop_pic_path, first_coeff_path, audio_path, batch_size, still_mode=still_mode, preprocess=preprocess, size=size, expression_scale = exp_scale)
         return_path = self.animate_from_coeff.generate(data, save_dir,  pic_path, crop_info, enhancer='gfpgan' if use_enhancer else None, preprocess=preprocess, img_size=size)
@@ -149,7 +153,8 @@ class SadTalker():
             torch.cuda.synchronize()
             
         import gc; gc.collect()
-        
+
+        print(f"return_path : {return_path}")
         return return_path
 
     
