@@ -43,6 +43,9 @@ RUN uv venv venv
 RUN . venv/bin/activate && uv pip install torch==2.4.1+cu121 torchvision==0.19.1+cu121 torchaudio==2.4.1+cu121 --extra-index-url https://download.pytorch.org/whl/cu121  \
     && uv pip install -r requirements.txt && uv pip install TTS
 
+# complements
+RUN . venv/bin/activate && uv pip install imageio-ffmpeg
+
 # Modifier le fichier basicsr/data/degradations.py
 RUN sed -i 's/from torchvision.transforms.functional_tensor import rgb_to_grayscale/from torchvision.transforms.functional import rgb_to_grayscale/' \
     venv/lib/python3.8/site-packages/basicsr/data/degradations.py

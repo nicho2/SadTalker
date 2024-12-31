@@ -11,17 +11,15 @@ except:
     in_webui = False
 
 
-
 def stop_generation():
     stop_flag.set()
     return "Génération interrompue."
 
-def wrapped_test(sad_talker,*args):
+
+def wrapped_test(sad_talker, *args):
     stop_flag.clear()  # Réinitialise le flag d'arrêt
-    for _ in sad_talker.test(*args):
-        if stop_flag.is_set():  # Vérifie si l'utilisateur a demandé l'arrêt
-            break
-    return "Génération terminée ou interrompue."
+    return_path = sad_talker.test(*args)
+    return return_path
 
 
 def toggle_audio_file(choice):
@@ -35,6 +33,7 @@ def ref_video_fn(path_of_ref_video):
         return gr.update(value=True)
     else:
         return gr.update(value=False)
+
 
 def sadtalker_demo(checkpoint_path='checkpoints', config_path='src/config', warpfn=None):
 
@@ -102,7 +101,7 @@ def sadtalker_demo(checkpoint_path='checkpoints', config_path='src/config', warp
                         )
         else:
             submit.click(
-                        fn=sad_talker.test,
+                        fn=lambda *args: wrapped_test(sad_talker, *args),
                         inputs=[source_image,
                                 driven_audio,
                                 preprocess_type,
